@@ -1,0 +1,23 @@
+diff -up ./src/util.c.orig ./src/util.c
+--- gob2-2.0.16/src/util.c.orig	2009-11-24 13:20:39.000000000 +1000
++++ gob2-2.0.16/src/util.c	2009-11-24 13:35:54.000000000 +1000
+@@ -81,13 +81,17 @@ remove_sep(const char *base)
+ {
+ 	char *p;
+ 	char *s = g_strdup(base);
++	char *q=s;
+ 
+ 	/* don't eat C++ :: thingies */
+ 	if (for_cpp && strstr (s, "::") != NULL)
+ 		return s;
+ 
+-	while((p = strchr(s, ':')))
+-		strcpy(p, p+1);
++	for(p=(char *)base;*p;p++){
++		if (*p!=':')
++			*q++=*p;
++	}
++	*q='\0';
+ 	return s;
+ }
+ 
